@@ -11,17 +11,23 @@
   .label { font-size: 13px; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; color: #8D3F2B; margin: 0 0 10px; }
   h1 { font-size: 22px; color: #003865; margin: 0 0 10px; line-height: 1.3; }
   h2 { font-size: 18px; color: #003865; margin: 0 0 8px; line-height: 1.3; }
+  h3 { font-size: 16px; color: #003865; margin: 16px 0 2px; line-height: 1.3; }
   p { margin: 0 0 14px; }
   .step { border: 1px solid #CCD7E0; border-left: 6px solid #8D3F2B; background: #F7F7F6; padding: 18px 22px; margin: 0 0 14px; }
   .step .n { font-size: 13px; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; color: #8D3F2B; margin: 0 0 6px; }
   .step p { font-size: 16px; }
+  .sub { font-weight: normal; color: #53565A; font-size: 14px; display: block; margin: 0 0 8px; }
+  .person { display: grid; grid-template-columns: 1fr; gap: 8px; margin: 0 0 8px; align-items: center; }
+  @media (min-width: 560px) { .person { grid-template-columns: 1.6fr 1fr auto; } }
   .row { display: grid; grid-template-columns: 1fr; gap: 10px; margin: 0 0 12px; }
   @media (min-width: 560px) { .row { grid-template-columns: 1.6fr 1fr; } }
   label { display: block; font-weight: bold; color: #003865; font-size: 15px; margin: 0 0 4px; }
-  .sub { font-weight: normal; color: #53565A; font-size: 14px; }
   input[type=text], select, textarea { width: 100%; font: inherit; font-size: 16px; color: #53565A; border: 1px solid #CCD7E0; border-radius: 4px; padding: 9px 12px; background: #ffffff; }
   textarea { min-height: 84px; resize: vertical; }
   input:focus-visible, select:focus-visible, textarea:focus-visible, button:focus-visible { outline: 3px solid #78BE21; outline-offset: 2px; }
+  .add { font: inherit; font-size: 14px; font-weight: bold; color: #003865; background: #ffffff; border: 1px solid #003865; border-radius: 20px; padding: 5px 14px; cursor: pointer; margin: 2px 0 6px; }
+  .remove { font: inherit; font-size: 14px; color: #53565A; background: transparent; border: 1px solid #CCD7E0; border-radius: 4px; padding: 8px 10px; cursor: pointer; white-space: nowrap; }
+  .remove:hover { color: #8D3F2B; border-color: #8D3F2B; }
   .face { background: #E6EBF0; border-left: 6px solid #003865; padding: 16px 20px; margin: 0 0 14px; font-size: 16px; }
   .face strong { color: #003865; }
   .opts { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -34,11 +40,12 @@
   .map .line strong { color: #003865; }
   .map .empty { color: #53565A; font-style: italic; }
   .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
-  button { font: inherit; font-size: 15px; font-weight: bold; padding: 10px 22px; border-radius: 4px; cursor: pointer; }
+  .actions button { font: inherit; font-size: 15px; font-weight: bold; padding: 10px 22px; border-radius: 4px; cursor: pointer; }
   .primary { background: #003865; color: #ffffff; border: 1px solid #003865; }
   .secondary { background: #ffffff; color: #003865; border: 1px solid #003865; }
   .status { font-size: 14px; margin-top: 10px; min-height: 1.4em; }
   .note { font-size: 14px; margin-top: 18px; }
+  .vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
 </style>
 </head>
 <body>
@@ -47,34 +54,18 @@
   <h1>My Sustainability Map</h1>
   <p>An inventory of who is carrying this work with you, one gap you have not named out loud, and one commitment for this month. Short answers are fine. The map at the bottom builds as you go.</p>
 
-  <form id="form">
+  <form id="form" onsubmit="return false;">
     <div class="step">
       <p class="n">Step 1: Inventory your partners</p>
-      <p>For each group, name who is actually in your corner for equity work right now, then say how much weight they carry. Leave a line blank if there is no one yet; a blank is information.</p>
-
-      <div class="row">
-        <div><label for="c1">Colleagues <span class="sub">(the people you can be honest with at work)</span></label><input type="text" id="c1" name="c1" placeholder="Names or roles"></div>
-        <div><label for="w1">Weight they carry</label><select id="w1" name="w1"><option value="">Choose</option><option>None yet</option><option>A little</option><option>A lot</option></select></div>
-      </div>
-      <div class="row">
-        <div><label for="c2">Mentors or coaches <span class="sub">(someone further down the road)</span></label><input type="text" id="c2" name="c2" placeholder="Names or roles"></div>
-        <div><label for="w2">Weight they carry</label><select id="w2" name="w2"><option value="">Choose</option><option>None yet</option><option>A little</option><option>A lot</option></select></div>
-      </div>
-      <div class="row">
-        <div><label for="c3">Teams or networks <span class="sub">(a leadership team, cohort, PLC, or association)</span></label><input type="text" id="c3" name="c3" placeholder="Names or roles"></div>
-        <div><label for="w3">Weight they carry</label><select id="w3" name="w3"><option value="">Choose</option><option>None yet</option><option>A little</option><option>A lot</option></select></div>
-      </div>
-      <div class="row">
-        <div><label for="c4">Families and community members <span class="sub">(parents, elders, organizations, tribal or faith partners)</span></label><input type="text" id="c4" name="c4" placeholder="Names or roles"></div>
-        <div><label for="w4">Weight they carry</label><select id="w4" name="w4"><option value="">Choose</option><option>None yet</option><option>A little</option><option>A lot</option></select></div>
-      </div>
+      <p>For each group, name the people who are actually in your corner for equity work right now, one per line, and say how much weight each one carries. Add as many as you have. Leave a group empty if there is no one yet; an empty group is information.</p>
+      <div id="groups"></div>
     </div>
 
     <div class="step">
       <p class="n">Step 2: The FACE lens</p>
       <div class="face">Minnesota&rsquo;s definition of Family and Community Engagement calls it <strong>a process and a practice rooted in relational trust</strong> that creates equitable partnerships between families, communities, and school staff, with <strong>shared responsibility</strong> for students&rsquo; success. In other words, families and community are partners who carry weight, not an audience to inform or a resource to ask things of.</div>
       <fieldset style="border:0;padding:0;margin:0;">
-        <legend style="font-weight:bold;color:#003865;font-size:15px;margin-bottom:6px;">Look at line 4 of your inventory. Right now, families and community show up in your equity work mostly as:</legend>
+        <legend style="font-weight:bold;color:#003865;font-size:15px;margin-bottom:6px;">Look at the families and community group in your inventory. Right now, families and community show up in your equity work mostly as:</legend>
         <div class="opts">
           <label><input type="radio" name="face" value="Partners I lean on and who lean on me"> Partners I lean on and who lean on me</label>
           <label><input type="radio" name="face" value="People I inform"> People I inform</label>
@@ -124,57 +115,93 @@
 
 <script>
 (function () {
-  var KEY = 'cril-m4-sustainability-map';
+  var KEY = 'cril-m4-sustainability-map-v2';
+  var GROUPS = [
+    { id: 'g1', title: 'Colleagues', sub: 'the people you can be honest with at work' },
+    { id: 'g2', title: 'Mentors or coaches', sub: 'someone further down the road' },
+    { id: 'g3', title: 'Teams or networks', sub: 'a leadership team, cohort, PLC, or association' },
+    { id: 'g4', title: 'Families and community members', sub: 'parents, elders, organizations, tribal or faith partners' }
+  ];
+  var WEIGHTS = ['A little', 'Some', 'A lot'];
   var form = document.getElementById('form');
   var status = document.getElementById('status');
-  var fields = ['c1','w1','c2','w2','c3','w3','c4','w4','face','gap','kind','when','commit','who'];
-  var groups = [['Colleagues','c1','w1'],['Mentors or coaches','c2','w2'],['Teams or networks','c3','w3'],['Families and community','c4','w4']];
+  var state = load();
 
-  function read() {
-    var d = {};
-    fields.forEach(function (f) {
-      var el = form.elements[f]; if (!el) return;
-      if (el.length && el[0] && el[0].type === 'radio') { d[f] = ''; for (var i = 0; i < el.length; i++) if (el[i].checked) d[f] = el[i].value; }
-      else d[f] = el.value;
+  function blank() { var s = { people: {}, face: '', gap: '', kind: '', when: '', commit: '', who: '' }; GROUPS.forEach(function (g) { s.people[g.id] = [{ name: '', weight: '' }]; }); return s; }
+  function load() { try { var s = JSON.parse(localStorage.getItem(KEY) || 'null'); if (s && s.people) return s; } catch (e) {} return blank(); }
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+
+  function renderGroups() {
+    var host = document.getElementById('groups'); host.innerHTML = '';
+    GROUPS.forEach(function (g) {
+      var h = document.createElement('div');
+      h.innerHTML = '<h3>' + g.title + '</h3><span class="sub">' + g.sub + '</span>';
+      state.people[g.id].forEach(function (p, i) {
+        var row = document.createElement('div'); row.className = 'person';
+        var nid = g.id + '-n' + i, wid = g.id + '-w' + i;
+        row.innerHTML =
+          '<div><label class="vh" for="' + nid + '">' + g.title + ' name ' + (i + 1) + '</label><input type="text" id="' + nid + '" value="' + esc(p.name) + '" placeholder="Name or role" autocomplete="off"></div>' +
+          '<div><label class="vh" for="' + wid + '">Weight ' + (i + 1) + ' carries</label><select id="' + wid + '"><option value="">Weight they carry</option>' +
+          WEIGHTS.map(function (w) { return '<option' + (p.weight === w ? ' selected' : '') + '>' + w + '</option>'; }).join('') + '</select></div>' +
+          '<button type="button" class="remove" aria-label="Remove ' + esc(p.name || 'this line') + '">Remove</button>';
+        row.querySelector('input').addEventListener('input', function (e) { p.name = e.target.value; save(); renderMap(); });
+        row.querySelector('select').addEventListener('change', function (e) { p.weight = e.target.value; save(); renderMap(); });
+        row.querySelector('.remove').addEventListener('click', function () {
+          state.people[g.id].splice(i, 1);
+          if (state.people[g.id].length === 0) state.people[g.id].push({ name: '', weight: '' });
+          save(); renderGroups(); renderMap();
+        });
+        h.appendChild(row);
+      });
+      var add = document.createElement('button'); add.type = 'button'; add.className = 'add'; add.textContent = '+ Add another person';
+      add.addEventListener('click', function () {
+        state.people[g.id].push({ name: '', weight: '' }); save(); renderGroups(); renderMap();
+        var inputs = document.querySelectorAll('#' + g.id + '-n' + (state.people[g.id].length - 1)); if (inputs[0]) inputs[0].focus();
+      });
+      h.appendChild(add);
+      host.appendChild(h);
     });
-    return d;
   }
-  function save() { try { localStorage.setItem(KEY, JSON.stringify(read())); } catch (e) {} }
-  function load() {
-    var d; try { d = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) { d = {}; }
-    fields.forEach(function (f) {
-      var el = form.elements[f]; if (!el || d[f] == null) return;
-      if (el.length && el[0] && el[0].type === 'radio') { for (var i = 0; i < el.length; i++) el[i].checked = (el[i].value === d[f]); }
-      else el.value = d[f];
-    });
-  }
-  function esc(s) { return String(s).replace(/[&<>]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]; }); }
+
   function renderMap() {
-    var d = read(); var h = '';
-    groups.forEach(function (g) {
-      var who = d[g[1]] ? esc(d[g[1]]) : '<span class="empty">no one named yet</span>';
-      var w = d[g[2]] ? ' (' + esc(d[g[2]]).toLowerCase() + ')' : '';
-      h += '<p class="line"><strong>' + g[0] + ':</strong> ' + who + w + '</p>';
+    var h = '';
+    GROUPS.forEach(function (g) {
+      var named = state.people[g.id].filter(function (p) { return p.name.trim(); });
+      var txt = named.length ? named.map(function (p) { return esc(p.name.trim()) + (p.weight ? ' (' + p.weight.toLowerCase() + ')' : ''); }).join('; ') : '<span class="empty">no one named yet</span>';
+      h += '<p class="line"><strong>' + g.title + ':</strong> ' + txt + '</p>';
     });
-    h += '<p class="line"><strong>Families and community are currently:</strong> ' + (d.face ? esc(d.face) : '<span class="empty">not yet chosen</span>') + '</p>';
-    h += '<p class="line"><strong>The gap I am naming:</strong> ' + (d.gap ? esc(d.gap) : '<span class="empty">not yet written</span>') + '</p>';
-    var c = d.commit ? esc(d.commit) : '<span class="empty">not yet written</span>';
-    h += '<p class="line"><strong>This month' + (d.kind ? ', one ' + esc(d.kind).toLowerCase() : '') + ':</strong> ' + c + (d.when ? ' (by ' + esc(d.when) + ')' : '') + (d.who ? '. ' + esc(d.who) + ' will know.' : '') + '</p>';
+    h += '<p class="line"><strong>Families and community are currently:</strong> ' + (state.face ? esc(state.face) : '<span class="empty">not yet chosen</span>') + '</p>';
+    h += '<p class="line"><strong>The gap I am naming:</strong> ' + (state.gap ? esc(state.gap) : '<span class="empty">not yet written</span>') + '</p>';
+    var c = state.commit ? esc(state.commit) : '<span class="empty">not yet written</span>';
+    h += '<p class="line"><strong>This month' + (state.kind ? ', one ' + esc(state.kind).toLowerCase() : '') + ':</strong> ' + c + (state.when ? ' (by ' + esc(state.when) + ')' : '') + (state.who ? '. ' + esc(state.who) + ' will know.' : '') + '</p>';
     document.getElementById('mapbody').innerHTML = h;
   }
-  form.addEventListener('input', function () { save(); renderMap(); });
-  form.addEventListener('change', function () { save(); renderMap(); });
-  load(); renderMap();
+
+  function bindSimple() {
+    ['gap', 'kind', 'when', 'commit', 'who'].forEach(function (f) {
+      var el = document.getElementById(f); el.value = state[f] || '';
+      el.addEventListener('input', function () { state[f] = el.value; save(); renderMap(); });
+      el.addEventListener('change', function () { state[f] = el.value; save(); renderMap(); });
+    });
+    var radios = form.elements['face'];
+    for (var i = 0; i < radios.length; i++) {
+      radios[i].checked = (radios[i].value === state.face);
+      radios[i].addEventListener('change', function (e) { state.face = e.target.value; save(); renderMap(); });
+    }
+  }
 
   document.getElementById('download').addEventListener('click', function () {
-    var d = read();
     var lines = ['CRIL Foundations Course, Module 4, Try It', 'My Sustainability Map', ''];
-    groups.forEach(function (g) { lines.push(g[0] + ': ' + (d[g[1]] || '(no one named yet)') + (d[g[2]] ? ' [' + d[g[2]] + ']' : '')); });
-    lines.push('Families and community are currently: ' + (d.face || '(not chosen)'));
-    lines.push('', 'The gap I am naming: ' + (d.gap || '(not written)'));
-    lines.push('', 'This month, one ' + (d.kind || 'commitment').toLowerCase() + ': ' + (d.commit || '(not written)'));
-    lines.push('By when: ' + (d.when || '(not set)'));
-    lines.push('Who will know: ' + (d.who || '(not named)'));
+    GROUPS.forEach(function (g) {
+      var named = state.people[g.id].filter(function (p) { return p.name.trim(); });
+      lines.push(g.title + ': ' + (named.length ? named.map(function (p) { return p.name.trim() + (p.weight ? ' [' + p.weight + ']' : ''); }).join('; ') : '(no one named yet)'));
+    });
+    lines.push('Families and community are currently: ' + (state.face || '(not chosen)'));
+    lines.push('', 'The gap I am naming: ' + (state.gap || '(not written)'));
+    lines.push('', 'This month, one ' + (state.kind || 'commitment').toLowerCase() + ': ' + (state.commit || '(not written)'));
+    lines.push('By when: ' + (state.when || '(not set)'));
+    lines.push('Who will know: ' + (state.who || '(not named)'));
     var blob = new Blob([lines.join('\n')], { type: 'text/plain' });
     var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'my-sustainability-map.txt';
     document.body.appendChild(a); a.click(); document.body.removeChild(a);
@@ -182,9 +209,11 @@
   });
   document.getElementById('erase').addEventListener('click', function () {
     try { localStorage.removeItem(KEY); } catch (e) {}
-    form.reset(); renderMap();
+    state = blank(); renderGroups(); bindSimple(); renderMap();
     status.textContent = 'Erased. Nothing is stored on this device.';
   });
+
+  renderGroups(); bindSimple(); renderMap();
 })();
 </script>
 </body>
